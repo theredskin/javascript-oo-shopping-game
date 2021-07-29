@@ -1,22 +1,98 @@
 let gameComplete = false;
+
 // Define the three constants here
+const name = "unknown";
+const score = 0; 
+const items = 0; 
 
 // Define the player object here
+let player = {
+        
+    name,
+    score,
+    items,
+
+    getCurrentScore() {
+        return this.score;
+    },
+
+    addPoints(points){
+        this.score += points; 
+    },
+
+    deductPoints(points) {
+        this.score -= points; 
+    }
+
+}
 
 // Define the Product class - write the Constructor function for Product class here
+function Product(id, name, price, expiryDate) {
+    this.id = id;
+    this.name = name; 
+    this.price = price;
+    this.expiryDate = expiryDate; 
+} 
 
 // Complete the dateDiff function
-const dateDiff = (date1, date2) => {};
+const dateDiff = (date1, date2) => {
+    let timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    let dayDiff = timeDiff / (1000 * 3600 * 24);
+    return dayDiff; 
+};
 
 // Here, use Object.defineProperty to create property - daysToExpire
+Object.defineProperty(Product.prototype, 'daysToExpire', {
+    get: function() { 
+        return dateDiff(this.expiryDate, new Date());
+    }
+})
 
 // Add method getDetails to Product here
+Product.prototype.getDetails = function(){
+    return `Product Name: ${this.name} , Product Price: ${this.price}`;
+}
 
 // Define the MagicProduct class here
+MagicProduct(id, name, price, expiryDate, points, isBonus)  {
+    Product.call(this, name, price, expiryDate);
+    this.points = points; 
+    this.isBonus = isBonus; 
+}
 
 // Establish inheritance between Product() & MagicProduct() here
 
+    MagicProduct.prototype = Object.create(Product.prototype);
+
 // Define Rating class here
+    class Rating {
+
+        constructor(){
+            this.rate = "";
+        }
+        
+        set rating(value) {
+
+            if  (value > 1 && value <= 4)   {
+                this.rate = "OK";
+            }
+
+            if  (value >= 5 && value <= 7)  { 
+                this.rate = "GOOD";
+            }
+
+            if  (value > 7) {
+                this.rate = "EXCEPTIONAL";
+            }
+
+            else {
+                this.rate = "BAD"
+            }
+
+        }
+   
+    }
+
 
 // Complete the loadProducts function
 const loadProducts = (map, prodId) => {
@@ -369,6 +445,5 @@ function init(data) {
     exports.exitLost = exitLost;
     exports.exitWon = exitWon;
     exports.main = main;
-
 
 
